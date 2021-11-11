@@ -23,7 +23,7 @@ export default [
         id: "peroject",
         title: "ایجاد پروژه ",
         icon: <Circle size={12} />,
-        navLink: "/commingSoon",
+        navLink: "/project",
       },
       {
         id: "expert",
