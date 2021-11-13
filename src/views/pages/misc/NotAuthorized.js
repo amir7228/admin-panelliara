@@ -1,10 +1,12 @@
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import notAuthImg from "@src/assets/images/pages/not-authorized.svg";
-
+import { useDispatch } from "react-redux";
+import { handleLogout } from "@store/actions/auth";
 import "@styles/base/pages/page-misc.scss";
 
 const NotAuthorized = () => {
+  const dispatch = useDispatch();
   return (
     <div className="misc-wrapper">
       <a className="brand-logo" href="/">
@@ -15,11 +17,11 @@ const NotAuthorized = () => {
           <h2 className="mb-1">شما وارد نشدید 🔐</h2>
           <p className="mb-2">لطفا دوباره وارد سامانه شوید</p>
           <Button
+            onClick={() => dispatch(handleLogout())}
             tag={Link}
             to="/login"
             color="primary"
             className="btn-sm-block mb-1"
-            onClick={() => dispatch(handleLogout())}
           >
             بازگشت به صفحه ورود
           </Button>
