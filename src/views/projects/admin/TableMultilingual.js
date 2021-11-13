@@ -4,7 +4,7 @@ import { Fragment, useState, useEffect } from "react";
 import { multiLingColumns } from "./data";
 import AddNewModal from "./AddNewModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getProjects as listProjects } from "../../redux/actions/project";
+
 // ** Third Party Components
 import ReactPaginate from "react-paginate";
 import { ChevronDown, Plus } from "react-feather";
@@ -31,17 +31,26 @@ const DataTableWithButtons = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   // ** Function to handle pagination
-
   const handlePagination = (page) => {
     setCurrentPage(page.selected);
   };
 
-  const dispatch = useDispatch();
-  const getProjects = useSelector((state) => state.getProjects);
-  const { project, loading, error } = getProjects;
-  useEffect(() => {
-    dispatch(listProjects("/project/admin/project"));
-  }, [dispatch]);
+  const data = [
+    {
+      responsive_id: "",
+      id: 1,
+      avatar: "10.jpg",
+      title: "دوره تاریخ",
+      description: "دوره ساختگی",
+      chapters: "23",
+      lessons: "78",
+      duration: "35",
+      price: "450,000",
+      age: "61",
+      experience: "1 Year",
+      status: 2,
+    },
+  ];
 
   const handleModal = () => setModal(!modal);
 
@@ -60,7 +69,7 @@ const DataTableWithButtons = () => {
     };
 
     if (value.length) {
-      updatedData = project.result.filter((item) => {
+      updatedData = data.filter((item) => {
         const startsWith =
           item.title.toLowerCase().startsWith(value.toLowerCase()) ||
           item.description.toLowerCase().startsWith(value.toLowerCase()) ||
@@ -122,9 +131,7 @@ const DataTableWithButtons = () => {
       forcePage={currentPage}
       onPageChange={(page) => handlePagination(page)}
       pageCount={
-        searchValue.length
-          ? filteredData.length / 7
-          : project.result.length / 7 || 1
+        searchValue.length ? filteredData.length / 7 : data.length / 7 || 1
       }
       breakLabel={"..."}
       pageRangeDisplayed={2}
@@ -193,7 +200,7 @@ const DataTableWithButtons = () => {
           sortIcon={<ChevronDown size={10} />}
           paginationDefaultPage={currentPage + 1}
           paginationComponent={CustomPagination}
-          data={searchValue.length ? filteredData : getProjects.result}
+          data={searchValue.length ? filteredData : data}
         />
         <CardFooter>
           <CardText className="mb-0">

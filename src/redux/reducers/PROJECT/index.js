@@ -10,6 +10,7 @@ export const getProjectsReduser = (state = initialState, action) => {
       return {
         loading: true,
         projects: [],
+        error: [],
       };
     case actionTypes.GET_ALL_PROJECTS_SUCCESS:
       return {

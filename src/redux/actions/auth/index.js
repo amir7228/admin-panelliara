@@ -1,19 +1,33 @@
+import useJwt from "@src/auth/jwt/useJwt";
+import axios from "axios";
+import { getUserData } from "../../../utility/Utils";
 // ** Handle User Login
-export const handleLogin = data => {
-  return dispatch => {
-    dispatch({ type: 'LOGIN', data })
 
+export const handleLogin = (data) => {
+  return (dispatch) => {
+    localStorage.setItem("userData", JSON.stringify(data));
+    dispatch({ type: "LOGIN", data });
+
+    axios.interceptors.request.use(function (config) {
+      const token = `Breare ${useJwt.getToken()}`;
+      config.headers.Authorization = token;
+      return config;
+    });
     // ** Add to user to localStorage
-    localStorage.setItem('userData', JSON.stringify(data))
-  }
-}
+  };
+};
 
 // ** Handle User Logout
 export const handleLogout = () => {
-  return dispatch => {
-    dispatch({ type: 'LOGOUT' })
+  return async (dispatch) => {
+    try {
+      localStorage.removeItem("userData");
+      dispatch({ type: "LOGOUT", data });
+      await useJwt.logout(`${getUserData().role}/`, "");
+    } catch (error) {
+      console.log(error?.response);
+    }
 
     // ** Remove user from localStorage
-    localStorage.removeItem('userData')
-  }
-}
+  };
+};
